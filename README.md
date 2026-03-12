@@ -1,4 +1,4 @@
-# 🏥 Django Clinic Appointment System
+# 🏥 DocSlot - Django Clinic Appointment System
 
 A simple web-based clinic management system built with **Django**.  
 This project helps clinics manage patients, doctors, and appointment bookings efficiently.
