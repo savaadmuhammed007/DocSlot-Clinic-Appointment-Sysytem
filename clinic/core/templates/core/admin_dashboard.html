@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="stats">
+    <div class="card stat-card">
+        <h3>Pending Requests</h3>
+        <p>{{ pending_count }}</p>
+    </div>
+    <div class="card stat-card">
+        <h3>Completed Appointments</h3>
+        <p>{{ completed_count }}</p>
+    </div>
+</div>
+
+<h3>Today's Appointments</h3>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for appt in today_appointments %}
+            <tr>
+                <td>{{ appt.patient.user.get_full_name }}</td>
+                <td>Dr. {{ appt.doctor.user.get_full_name }}</td>
+                <td>{{ appt.appointment_date }}</td>
+                <td>{{ appt.appointment_time }}</td>
+                <td>{{ appt.status }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No appointments today.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

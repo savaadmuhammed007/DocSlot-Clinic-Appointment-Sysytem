@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>Manage Appointments</h2>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Update</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for appt in appointments %}
+            <tr>
+                <td>{{ appt.patient.user.get_full_name }}</td>
+                <td>Dr. {{ appt.doctor.user.get_full_name }}</td>
+                <td>{{ appt.appointment_date }}</td>
+                <td>{{ appt.appointment_time }}</td>
+                <td>{{ appt.reason }}</td>
+                <td>{{ appt.status }}</td>
+                <td>
+                    <form method="post" class="inline-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="appointment_id" value="{{ appt.id }}">
+                        <button name="action" value="approve" class="btn-small">Approve</button>
+                        <button name="action" value="reject" class="btn-small danger">Reject</button>
+                        <button name="action" value="complete" class="btn-small success">Complete</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="7">No appointments found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

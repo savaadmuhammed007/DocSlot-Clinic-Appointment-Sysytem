@@ -1,0 +1,73 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Book Appointment with Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }}</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div>
+            <label for="appointment_date">Select Date</label>
+            <input type="date" id="appointment_date" name="appointment_date" required>
+        </div>
+
+        <div>
+            <label for="appointment_time">Select Time Slot</label>
+            <select id="appointment_time" name="appointment_time" required>
+                <option value="">Select a date first</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="reason">Reason</label>
+            <textarea id="reason" name="reason" rows="4"></textarea>
+        </div>
+
+        <button type="submit" class="btn">Book Appointment</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('appointment_date').addEventListener('change', function () {
+    const selectedDate = this.value;
+    const timeSelect = document.getElementById('appointment_time');
+    const doctorId = "{{ doctor.id }}";
+
+    timeSelect.innerHTML = '<option value="">Loading...</option>';
+
+    fetch(`/doctor/${doctorId}/available-slots/?date=${selectedDate}`)
+        .then(response => response.json())
+        .then(data => {
+            timeSelect.innerHTML = '';
+
+            if (data.slots.length === 0) {
+                timeSelect.innerHTML = '<option value="">No slots available</option>';
+                return;
+            }
+
+            let defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select a time slot';
+            timeSelect.appendChild(defaultOption);
+
+            data.slots.forEach(slot => {
+                let option = document.createElement('option');
+                option.value = slot;
+                option.textContent = slot;
+                timeSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            timeSelect.innerHTML = '<option value="">Error loading slots</option>';
+            console.error(error);
+        });
+});
+</script>
+{% endblock %}

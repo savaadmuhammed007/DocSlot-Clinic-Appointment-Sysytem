@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Manage Doctors</h2>
+    <a href="{% url 'add_doctor' %}" class="btn">Add Doctor</a>
+</div>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Department</th>
+                <th>Phone</th>
+                <th>Specialization</th>
+                <th>Fee</th>
+                <th>Available</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for doctor in doctors %}
+            <tr>
+                <td>Dr. {{ doctor.user.get_full_name }}</td>
+                <td>{{ doctor.user.username }}</td>
+                <td>{{ doctor.department.name }}</td>
+                <td>{{ doctor.phone }}</td>
+                <td>{{ doctor.specialization }}</td>
+                <td>₹{{ doctor.consultation_fee }}</td>
+                <td>
+                    {% if doctor.is_available %}
+                        <span class="status status-approved">Yes</span>
+                    {% else %}
+                        <span class="status status-cancelled">No</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'edit_doctor' doctor.id %}" class="btn-small">Edit</a>
+                    <a href="{% url 'delete_doctor' doctor.id %}" class="btn-small danger">Delete</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="8">No doctors found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

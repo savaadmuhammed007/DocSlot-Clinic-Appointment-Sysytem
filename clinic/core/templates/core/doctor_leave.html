@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="card form-card">
+    <h2>Add Leave</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Save Leave</button>
+    </form>
+</div>
+
+<h3>Your Leave Records</h3>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for leave in leaves %}
+            <tr>
+                <td>{{ leave.date }}</td>
+                <td>{{ leave.reason }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">No leave records.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

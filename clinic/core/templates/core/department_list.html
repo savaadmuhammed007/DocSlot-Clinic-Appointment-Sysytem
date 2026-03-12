@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>Departments</h2>
+<div class="grid">
+    {% for department in departments %}
+        <div class="card">
+            <h3>{{ department.name }}</h3>
+            <a href="{% url 'doctors_by_department' department.id %}" class="btn">View Doctors</a>
+        </div>
+    {% empty %}
+        <p>No departments available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

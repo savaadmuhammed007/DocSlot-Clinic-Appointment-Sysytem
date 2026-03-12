@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Appointment System</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{% url 'home' %}" class="brand">DocSlot</a>
+        </div>
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+                    <a href="{% url 'manage_appointments' %}">Manage Appointments</a>
+                    <a href="{% url 'manage_doctors' %}">Manage Doctors</a>
+                {% elif user.doctor_profile %}
+                    <a href="{% url 'doctor_dashboard' %}">Doctor Dashboard</a>
+                    <a href="{% url 'doctor_leave' %}">Leave</a>
+                {% else %}
+                    <a href="{% url 'department_list' %}">Departments</a>
+                    <a href="{% url 'my_appointments' %}">My Appointments</a>
+                {% endif %}
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

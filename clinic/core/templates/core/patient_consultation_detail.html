@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="card form-card">
+    <h2>Consultation Details</h2>
+
+    <div class="detail-group">
+        <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.user.get_full_name }}</p>
+        <p><strong>Date:</strong> {{ appointment.appointment_date }}</p>
+        <p><strong>Time:</strong> {{ appointment.appointment_time }}</p>
+        <p><strong>Status:</strong> {{ appointment.status }}</p>
+    </div>
+
+    <hr style="margin: 20px 0;">
+
+    <div class="detail-group">
+        <h3>Symptoms</h3>
+        <p>{{ note.symptoms|default:"No symptoms added." }}</p>
+    </div>
+
+    <div class="detail-group">
+        <h3>Diagnosis</h3>
+        <p>{{ note.diagnosis|default:"No diagnosis added." }}</p>
+    </div>
+
+    <div class="detail-group">
+        <h3>Prescription</h3>
+        <p>{{ note.prescription|linebreaks }}</p>
+    </div>
+
+    <div class="detail-group">
+        <h3>Advice</h3>
+        <p>{{ note.advice|default:"No advice added."|linebreaks }}</p>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <a href="{% url 'my_appointments' %}" class="btn">Back to My Appointments</a>
+    </div>
+</div>
+{% endblock %}

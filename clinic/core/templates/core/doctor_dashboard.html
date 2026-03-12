@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>Doctor Dashboard</h2>
+<h3>Welcome, Dr. {{ doctor.user.get_full_name }}</h3>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for appt in appointments %}
+            <tr>
+                <td>{{ appt.patient.user.get_full_name }}</td>
+                <td>{{ appt.appointment_date }}</td>
+                <td>{{ appt.appointment_time }}</td>
+                <td>{{ appt.reason }}</td>
+                <td>{{ appt.status }}</td>
+                <td>
+                    <a href="{% url 'add_consultation_note' appt.id %}" class="btn-small">Add / Edit Note</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6">No appointments for today.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

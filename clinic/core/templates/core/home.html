@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="hero">
+    <h1>Clinic Appointment System</h1>
+    <p>Manage doctors, patients, schedules and appointments in one place.</p>
+    {% if not user.is_authenticated %}
+        <div class="hero-actions">
+            <a href="{% url 'login' %}" class="btn">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-outline">Register</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>Doctors in {{ department.name }}</h2>
+<div class="grid">
+    {% for doctor in doctors %}
+        <div class="card">
+            <h3>Dr. {{ doctor.user.get_full_name }}</h3>
+            <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+            <p><strong>Phone:</strong> {{ doctor.phone }}</p>
+            <p><strong>Fee:</strong> ₹{{ doctor.consultation_fee }}</p>
+            <a href="{% url 'book_appointment' doctor.id %}" class="btn">Book Appointment</a>
+        </div>
+    {% empty %}
+        <p>No doctors found in this department.</p>
+    {% endfor %}
+</div>
+{% endblock %}
